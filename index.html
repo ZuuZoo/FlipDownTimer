@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/flipdown/flipdown.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script type="text/javascript" src="js/flipdown/flipdown.js"></script>
+
+  <style>
+    .elso {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+
+    .menum {
+      width: 100px;
+      position: absolute;
+      left: 100px;
+    }
+
+    .buttonom {
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="elso" id="elso">
+    <label for="day">Nap:</label>
+    <input type="number" id="day" placeholder="Nap" min="0" max="100" value="0" class="menum">
+    <br><br>
+    <label for="hour">Óra:</label>
+    <input type="number" id="hour" placeholder="Óra" min="0" max="23" value="0" class="menum">
+    <br><br>
+    <label for=" minute">Perc:</label>
+    <input type="number" id="minute" placeholder="Perc" min="0" max="59" value="0" class="menum">
+    <br><br>
+    <label for="second">Másodperc:</label>
+    <input type="number" id="second" placeholder="Másodperc" min="0" max="59" value="0" class="menum">
+    <br><br>
+    <button id="button" class="buttonom" onclick="kuldes()">Gomb</button>
+  </div>
+  <div id="flipdown" class="flipdown"></div>
+</body>
+
+<script>
+  function kuldes() {
+    var day = document.getElementById("day").value;
+    var hour = document.getElementById("hour").value;
+    var minute = document.getElementById("minute").value;
+    var second = document.getElementById("second").value;
+
+    window.location.href = "/?d" + day + "h" + hour + "m" + minute + "s" + second + "&";
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+
+    let urlParams = window.location.href.split("/").pop();
+
+    // Ha a "?r118g255b137&" szerepel az URL-ben
+    if (urlParams.includes("?d") && urlParams.includes("h") && urlParams.includes("m") && urlParams.includes("s")) {
+      // Színek kinyerése az URL-ből
+      let d = parseInt(urlParams.split("d")[1].split("h")[0]);
+      let h = parseInt(urlParams.split("h")[1].split("m")[0]);
+      let m = parseInt(urlParams.split("m")[1].split("s")[0]);
+      let s = parseInt(urlParams.split("s")[1]);
+
+      // Változók beállítása
+      let day = d;
+      let hour = h;
+      let minute = m;
+      let second = s;
+
+      document.getElementById("flipdown").style.display = "block";
+      document.getElementById("elso").style.display = "none";
+
+      let secs = (day * 86400) + (hour * 3600) + (minute * 60) + second
+
+      // Unix timestamp (in seconds) to count down to
+      var twoDaysFromNow = (new Date().getTime() / 1000) + secs;
+
+      // Set up FlipDown
+      var flipdown = new FlipDown(twoDaysFromNow)
+
+        // Start the countdown
+        .start()
+
+        // Do something when the countdown ends
+        .ifEnded();
+
+    } else {
+      document.getElementById("flipdown").style.display = "none";
+      document.getElementById("elso").style.display = "block";
+    }
+  });
+</script>
+
+</html>
