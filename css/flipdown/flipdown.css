@@ -81,7 +81,9 @@
 .flipdown {
   overflow: visible;
   width: 1500px;
-  height: 323px;
+  height: 150px;
+  position: relative;
+  left: 20px;
 }
 
 .flipdown .rotor-group {
