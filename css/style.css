@@ -8,6 +8,9 @@ body {
   display: flex;
   align-items: center;
   align-content: space-around;
+  background-color: #00ff00;
+  width: 700px;
+  height: 300px;
 }
 
 body,
